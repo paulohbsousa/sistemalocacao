@@ -268,7 +268,8 @@ public class VeiculoForm extends javax.swing.JFrame {
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         try {
             VeiculoDAO dao = new VeiculoDAO();
-            modeloTabela.setListaClientes(dao.getLista());
+            Van van = dao.getListaVan();
+            modeloTabela.setListaClientes(dao.getListaVan());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }

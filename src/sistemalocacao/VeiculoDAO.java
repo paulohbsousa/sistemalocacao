@@ -21,7 +21,8 @@ public class VeiculoDAO<Type extends Veiculo> {
     private PreparedStatement stmt = null;
     
     private void setModelo(Type veiculo) throws SQLException{
-        switch (veiculo.getClass().getCanonicalName()){ // Pegar o nome da classe
+        String nomeClasse = veiculo.getClass().getCanonicalName();
+        switch (nomeClasse){ // Pegar o nome da classe
             case "Van":
                 Van van = (Van) veiculo;
                 stmt.setInt(6, van.getModelo().ordinal() );
@@ -35,13 +36,13 @@ public class VeiculoDAO<Type extends Veiculo> {
                 stmt.setInt(6, moto.getModelo().ordinal() );
             break;
         }
+        stmt.setString(7, nomeClasse);
     }
-    
     
     public void insere(Type veiculo) throws SQLException {
         Connection connection = null;
         
-        String sql = "insert into veiculos (marca,estado,categoria,valor,placa,modelo) values (?,?,?,?,?,?,?)";
+        String sql = "insert into veiculos (marca,estado,categoria,valor,placa,modelo,tipo) values (?,?,?,?,?,?,?,?)";
         
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
@@ -82,9 +83,29 @@ public class VeiculoDAO<Type extends Veiculo> {
         }
     }
     
-    public Type getLista() throws SQLException {
+    public void devolver(Type veiculo) throws SQLException {
         Connection connection = null;
-        String sql = "select * from veiculos";
+        String sql = "update veiculos set estado=? where placa = ?";
+        
+        try {
+            connection = new ConnectionFactoryComProperties().getConnection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, Estado.Disponivel.ordinal());
+            stmt.setString(2, veiculo.getPlaca());
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (connection != null){
+                connection.close();
+            }
+        }
+    }
+    
+    public Automovel getListaVanAutomovel() throws SQLException {
+        Connection connection = null;
+        String sql = "select * from veiculos where tipo = 'Automovel'";
         ResultSet rs = null;
         
         try {
@@ -95,8 +116,8 @@ public class VeiculoDAO<Type extends Veiculo> {
             stmt.close();
             LocacaoDAO locacaoDAO = new LocacaoDAO();
             Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
-            Type veiculo = (Type) new Object(rs.getInt("marca"), rs.getInt("estado"), locacao, rs.getInt("categoria"),rs.getInt("valor"), rs.getInt("placa"), rs.getInt("ano"), rs.getInt("modelo"));
-            return veiculo;           
+            Automovel automovel = new Automovel(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloAutomovel.values()[rs.getInt("modelo")]);
+            return automovel;       
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -105,6 +126,55 @@ public class VeiculoDAO<Type extends Veiculo> {
             }
         }
     }
+    
+    public Motocicleta getListaMotocicleta() throws SQLException {
+        Connection connection = null;
+        String sql = "select * from veiculos where tipo = 'Motocicleta'";
+        ResultSet rs = null;
+        
+        try {
+            connection = new ConnectionFactoryComProperties().getConnection();
+            stmt = connection.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            rs.next();
+            stmt.close();
+            LocacaoDAO locacaoDAO = new LocacaoDAO();
+            Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
+            Motocicleta motocicleta = new Motocicleta(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloMotocicleta.values()[rs.getInt("modelo")]);
+            return motocicleta;       
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (connection != null){
+                connection.close();
+            }
+        }
+    }
+    
+    public Van getListaVan() throws SQLException {
+        Connection connection = null;
+        String sql = "select * from veiculos where tipo = 'Van'";
+        ResultSet rs = null;
+        
+        try {
+            connection = new ConnectionFactoryComProperties().getConnection();
+            stmt = connection.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            rs.next();
+            stmt.close();
+            LocacaoDAO locacaoDAO = new LocacaoDAO();
+            Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
+            Van van = new Van(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloVan.values()[rs.getInt("modelo")]);
+            return van;       
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (connection != null){
+                connection.close();
+            }
+        }
+    }
+    
     
 //    public Type pega(String placa) throws SQLException {
 //        Connection connection = null;
