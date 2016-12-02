@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistemalocacao.util;
+package sistemalocacao.bean;
 
 /**
  *
  * @author dell
  */
-public enum Marca { 
-	VW,GM,Fiat,Honda,Mercedes,BMW,Tesla
+public enum ModeloAutomovel { 
+    Gol, Celta, Palio, HB20, Clio, ModelS
 }

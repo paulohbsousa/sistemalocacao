@@ -5,7 +5,7 @@
 
 package sistemalocacao.view;
 
-import sistemalocacao.util.Cliente;
+import sistemalocacao.bean.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;

@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistemalocacao.util;
+package sistemalocacao.bean;
 
 /**
  *
  * @author dell
  */
-public class Motocicleta extends Veiculo {
+public class Van extends Veiculo {
 	
-	private ModeloMotocicleta modelo;
+	private ModeloVan modelo;
 
-	public Motocicleta (Marca marca, Estado estado, Locacao locacao, Categoria categoria, double valorDeCompra, String placa, int ano, ModeloMotocicleta modelo){
+	public Van (Marca marca, Estado estado, Locacao locacao, Categoria categoria, double valorDeCompra, String placa, int ano, ModeloVan modelo){
             super(marca, estado, locacao, categoria, valorDeCompra, placa, ano);
             this.modelo = modelo;
 	}
 
-	public ModeloMotocicleta getModelo(){
+	public ModeloVan getModelo(){
             return this.modelo;
 	}
 
@@ -26,11 +26,11 @@ public class Motocicleta extends Veiculo {
 	public double getValorDiariaLocacao(){
             switch (this.categoria){
                     case Popular:
-                        return 70.00;
-                    case Intermediario:
                         return 200.00;
+                    case Intermediario:
+                        return 400.00;
                     case Luxo:
-                        return 350.00;
+                        return 600.00;
                     default:
                         return 0;
             }
