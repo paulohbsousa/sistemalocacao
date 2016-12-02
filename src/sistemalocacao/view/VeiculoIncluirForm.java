@@ -297,27 +297,27 @@ public class VeiculoIncluirForm extends javax.swing.JFrame {
     private void tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoActionPerformed
         String tipoVeiculo = tipo.getSelectedItem().toString();
         switch(tipoVeiculo){
-                case "Automovel":
-                    modelo.removeAllItems();
-                    ModeloAutomovel[] modelosAuto = ModeloAutomovel.values();
-                    for(ModeloAutomovel modeloAuto: modelosAuto)
-                        modelo.addItem(modeloAuto.toString());
-                    break;
-                case "Motocicleta":
-                    modelo.removeAllItems();
-                    ModeloMotocicleta[] modelosMoto = ModeloMotocicleta.values();
-                    for(ModeloMotocicleta modeloMoto: modelosMoto)
-                        modelo.addItem(modeloMoto.toString());
-                    break;
-                case "Van":
-                    modelo.removeAllItems();
-                    ModeloVan[] modelosVan = ModeloVan.values();
-                    for(ModeloVan modeloVan: modelosVan)
-                        modelo.addItem(modeloVan.toString());
-                    break;
-                default:
-                    JOptionPane.showMessageDialog(null,"Ocorreu um erro na selecao do tipo de veiculo que deseja listar.", "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+            case "Automovel":
+                modelo.removeAllItems();
+                ModeloAutomovel[] modelosAuto = ModeloAutomovel.values();
+                for(ModeloAutomovel modeloAuto: modelosAuto)
+                    modelo.addItem(modeloAuto.toString());
+                break;
+            case "Motocicleta":
+                modelo.removeAllItems();
+                ModeloMotocicleta[] modelosMoto = ModeloMotocicleta.values();
+                for(ModeloMotocicleta modeloMoto: modelosMoto)
+                    modelo.addItem(modeloMoto.toString());
+                break;
+            case "Van":
+                modelo.removeAllItems();
+                ModeloVan[] modelosVan = ModeloVan.values();
+                for(ModeloVan modeloVan: modelosVan)
+                    modelo.addItem(modeloVan.toString());
+                break;
+            default:
+                JOptionPane.showMessageDialog(null,"Ocorreu um erro na selecao do tipo de veiculo que deseja listar.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_tipoActionPerformed
 
     private void modeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modeloActionPerformed

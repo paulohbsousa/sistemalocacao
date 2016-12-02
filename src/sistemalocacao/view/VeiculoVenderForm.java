@@ -216,7 +216,7 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de contatos. "+ex , "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de veiculo. "+ex , "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_venderActionPerformed
 
@@ -265,7 +265,7 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
             }
             
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao listar veiculos.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_listarActionPerformed
 

@@ -107,7 +107,7 @@ public class LocacaoDAO {
             rs = stmt.executeQuery();
             rs.next();
             ClienteDAO clienteDAO = new ClienteDAO();
-            Cliente cliente = clienteDAO.pega(rs.getLong("idCliente"));
+            Cliente cliente = clienteDAO.pega(rs.getLong("idClientes"));
             Calendar calendar = Calendar.getInstance(); //verificar isso
             calendar.setTime(rs.getDate("data"));
             Locacao locacao = new Locacao(rs.getInt("dias"), rs.getDouble("valor"), calendar , cliente);
