@@ -5,26 +5,24 @@
 
 package sistemalocacao.view;
 
-import sistemalocacao.util.Veiculo;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.swing.table.AbstractTableModel;
+import sistemalocacao.bean.*;
 
-/**
- *
- * @author Rafael
- */
-public class ModeloTabelaVeiculosIncluir extends AbstractTableModel{
-    private String[] colunas = new String[]{"Marca","Modelo", "Estado", "Categoria", "Placa", "Ano"};
+public class ModeloTabelaVeiculosDevolver extends AbstractTableModel{
+    private String[] colunas = new String[]{"Nome do Cliente", "Placa" ,"Marca","Modelo", "Ano", "Data Locacao", "Preco Diaria", "Quantidade de dias locados", "Valor locacao"};
 
-    private List<Veiculo> lista=new ArrayList();
+    private List<Veiculo> lista= new ArrayList();
+    private List<Van> listaVan = new ArrayList();
+    private List<Automovel> listaAutomovel = new ArrayList();
+    private List<Motocicleta> listaMotocicleta = new ArrayList();
 
     
-    public ModeloTabelaVeiculosIncluir(List<Veiculo> lista){
+    public ModeloTabelaVeiculosDevolver(List<Veiculo> lista){
         this.lista=lista;
     }
 
-    public ModeloTabelaVeiculosIncluir(){
+    public ModeloTabelaVeiculosDevolver(){
     }
 
 
@@ -51,14 +49,25 @@ public class ModeloTabelaVeiculosIncluir extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Veiculo veiculo = lista.get(rowIndex);
+        Automovel automovel = null;
+        Motocicleta motocicleta = null;
+        Van van = null;
         switch (columnIndex) {
-            case 0: return veiculo.getMarca();//if column 0 (code)
-            case 1: return veiculo.getClass().getName();//if column 1 (name)
-            case 2: return veiculo.getEstado();//if column 2 (birthday)
-            case 3: return veiculo.getCategoria() ;
-            case 4: return veiculo.getValorParaVenda();
-            case 5: return veiculo.getPlaca();
-            case 6: return veiculo.getAno();
+            case 0: return veiculo.getLocacao().getCliente();
+            case 1: return veiculo.getPlaca();
+            case 2: return veiculo.getMarca();
+            case 3: 
+                switch(veiculo.getClass().getSimpleName()){
+                    case "Automovel":   automovel = (Automovel) veiculo;  return automovel.getModelo();
+                    case "Motocicleta": motocicleta = (Motocicleta) veiculo; return motocicleta.getModelo();
+                    case "Van":         van = (Van) veiculo; return van.getModelo();
+                }
+            case 4: return veiculo.getAno();
+            case 5: return veiculo.getLocacao().getData();
+            case 6: return veiculo.getValorDiariaLocacao();
+            case 7: return veiculo.getLocacao().getDias();
+            case 8: return veiculo.getLocacao().getValor();
+            
             default : return null;
         }
     }
@@ -86,7 +95,7 @@ public class ModeloTabelaVeiculosIncluir extends AbstractTableModel{
             default:
         }
         this.fireTableCellUpdated(row, col);
-    }*/
+    }
 
     public boolean removeVeiculo(Veiculo veiculo) {
         int linha = this.lista.indexOf(veiculo);
@@ -99,7 +108,7 @@ public class ModeloTabelaVeiculosIncluir extends AbstractTableModel{
         this.lista.add(veiculo);
         //this.fireTableDataChanged();
         this.fireTableRowsInserted(lista.size()-1,lista.size()-1);//update JTable
-    }
+    }*/
 
     public void setListaVeiculos(List<Veiculo> veiculos) {
         this.lista = veiculos;
