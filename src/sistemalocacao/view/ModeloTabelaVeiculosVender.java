@@ -78,7 +78,7 @@ public class ModeloTabelaVeiculosVender extends AbstractTableModel{
 
   
 
-    public boolean removeCliente(Veiculo veiculo) {
+    public boolean removeVeiculo(Veiculo veiculo) {
         int linha = this.lista.indexOf(veiculo);
         boolean result = this.lista.remove(veiculo);
         this.fireTableRowsDeleted(linha,linha);//update JTable

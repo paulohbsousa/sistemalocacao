@@ -123,15 +123,15 @@ public class VeiculoDevolverForm extends javax.swing.JFrame {
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         try {
             VeiculoDAO dao = new VeiculoDAO();
-            listaAutomovel = dao.getListaAutomovel();
-            listaMotocicleta = dao.getListaMotocicleta();
-            listaVan = dao.getListaVan();
-            lista.addAll(listaAutomovel);
-            lista.addAll(listaMotocicleta);
-            lista.addAll(listaVan);
-            for(Veiculo veiculo: lista)
-                if(veiculo.getEstado() != Estado.Locado)
-                    lista.remove(veiculo);
+//            listaAutomovel = dao.getListaAutomovel();
+//            listaMotocicleta = dao.getListaMotocicleta();
+//            listaVan = dao.getListaVan();
+//            lista.addAll(listaAutomovel);
+//            lista.addAll(listaMotocicleta);
+//            lista.addAll(listaVan);
+            lista.addAll(dao.getLista(-1,-1,"Automovel",Estado.Locado));
+            lista.addAll(dao.getLista(-1,-1,"Motocicleta",Estado.Locado));
+            lista.addAll(dao.getLista(-1,-1,"Van",Estado.Locado));
             modeloTabela.setListaVeiculos(lista);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao listar veiculos locados.Excecao = "+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -139,9 +139,24 @@ public class VeiculoDevolverForm extends javax.swing.JFrame {
     }//GEN-LAST:event_listarActionPerformed
 
     private void devolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devolverActionPerformed
-        Veiculo veiculo = modeloTabela.getVeiculo(tabela.getSelectedRow());
+
         try {
-            veiculo.devolver();
+            VeiculoDAO dao = new VeiculoDAO();
+            LocacaoDAO ldao = new LocacaoDAO();
+            int[] linhasSelecionadas = tabela.getSelectedRows();
+            List<Veiculo> listaExcluir = new ArrayList();
+            for (int i = 0; i < linhasSelecionadas.length; i++) {
+                Veiculo veiculo = modeloTabela.getVeiculo(linhasSelecionadas[i]);
+                Locacao locacao = veiculo.getLocacao();
+                veiculo.devolver();
+                dao.atualiza(veiculo);
+                ldao.deleta(locacao);
+                listaExcluir.add(veiculo);
+
+            }
+            for(Veiculo veiculo:listaExcluir){
+                modeloTabela.removeVeiculo(veiculo);
+            }
             JOptionPane.showMessageDialog(null,"Veiculo devolvido com sucesso!");
         } catch (Exception e) {
             System.out.println("Erro ao devolver veiculo. Excecao = "+e.getMessage());

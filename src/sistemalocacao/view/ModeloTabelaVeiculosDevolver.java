@@ -5,6 +5,8 @@
 
 package sistemalocacao.view;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.table.AbstractTableModel;
 import sistemalocacao.bean.*;
@@ -45,6 +47,13 @@ public class ModeloTabelaVeiculosDevolver extends AbstractTableModel{
     public boolean isCellEditable(int row, int column) {
         return false;
     }
+    
+    public boolean removeVeiculo(Veiculo veiculo) {
+        int linha = this.lista.indexOf(veiculo);
+        boolean result = this.lista.remove(veiculo);
+        this.fireTableRowsDeleted(linha,linha);//update JTable
+        return result;
+    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -53,7 +62,7 @@ public class ModeloTabelaVeiculosDevolver extends AbstractTableModel{
         Motocicleta motocicleta = null;
         Van van = null;
         switch (columnIndex) {
-            case 0: return veiculo.getLocacao().getCliente();
+            case 0: return veiculo.getLocacao().getCliente().getNome();
             case 1: return veiculo.getPlaca();
             case 2: return veiculo.getMarca();
             case 3: 
@@ -63,7 +72,10 @@ public class ModeloTabelaVeiculosDevolver extends AbstractTableModel{
                     case "Van":         van = (Van) veiculo; return van.getModelo();
                 }
             case 4: return veiculo.getAno();
-            case 5: return veiculo.getLocacao().getData();
+            case 5: 
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = new java.sql.Date(veiculo.getLocacao().getData().getTimeInMillis());  
+                return dateFormat.format(date);
             case 6: return veiculo.getValorDiariaLocacao();
             case 7: return veiculo.getLocacao().getDias();
             case 8: return veiculo.getLocacao().getValor();

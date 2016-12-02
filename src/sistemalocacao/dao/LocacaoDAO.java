@@ -52,7 +52,7 @@ public class LocacaoDAO {
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
-            stmt.setLong(1, locacao.getCliente().getCPF());
+            stmt.setInt(1, locacao.getId());
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {
@@ -105,12 +105,16 @@ public class LocacaoDAO {
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
-            rs.next();
-            ClienteDAO clienteDAO = new ClienteDAO();
-            Cliente cliente = clienteDAO.pega(rs.getLong("idCliente"));
-            Calendar calendar = Calendar.getInstance(); //verificar isso
-            calendar.setTime(rs.getDate("data"));
-            Locacao locacao = new Locacao(rs.getInt("dias"), rs.getDouble("valor"), calendar , cliente);
+            Locacao locacao = null;
+            
+            if ( rs.next() ){
+                ClienteDAO clienteDAO = new ClienteDAO();
+                Cliente cliente = clienteDAO.pega(rs.getLong("idClientes"));
+                Calendar calendar = Calendar.getInstance(); //verificar isso
+                calendar.setTime(rs.getDate("data"));
+                locacao = new Locacao(rs.getInt("dias"), rs.getDouble("valor"), calendar , cliente);
+                locacao.setId(rs.getInt("id"));
+            }
             return locacao;           
         } catch (SQLException e) {
             throw new RuntimeException(e);

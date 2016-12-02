@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemalocacao.bean.Categoria;
+import sistemalocacao.bean.Estado;
 import sistemalocacao.bean.Marca;
 import sistemalocacao.bean.ModeloAutomovel;
 import sistemalocacao.bean.Veiculo;
@@ -212,7 +213,7 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
 
             }
             for(Veiculo veiculo:listaExcluir){
-                modeloTabela.removeCliente(veiculo);
+                modeloTabela.removeVeiculo(veiculo);
             }
             JOptionPane.showMessageDialog(null,"Veiculo vendido com sucesso!");
         } catch (Exception ex) {
@@ -259,7 +260,7 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
                 
             String tipoVeiculo = tipo.getSelectedItem().toString();
             if (!tipoVeiculo.equals("")){
-                modeloTabela.setListaVeiculos(dao.getLista(marcaVender,categoriaVender,tipoVeiculo));
+                modeloTabela.setListaVeiculos(dao.getLista(marcaVender,categoriaVender,tipoVeiculo,Estado.Disponivel));
             } else {
                 JOptionPane.showMessageDialog(null,"Selecione o tipo de veiculo que deseja listar.", "Erro", JOptionPane.ERROR_MESSAGE);
             }

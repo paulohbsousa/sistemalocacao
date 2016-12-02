@@ -35,7 +35,7 @@ public class VeiculoDAO<Type extends Veiculo> {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, veiculo.getMarca().ordinal());
-            stmt.setInt(2, veiculo.getEstado().ordinal());
+            stmt.setInt(2, Estado.Disponivel.ordinal());
             stmt.setInt(3, veiculo.getCategoria().ordinal());
             stmt.setDouble(4, veiculo.getValorParaVenda());
             stmt.setString(5, veiculo.getPlaca());
@@ -88,13 +88,17 @@ public class VeiculoDAO<Type extends Veiculo> {
     
     public void atualiza(Type veiculo) throws SQLException {
         Connection connection = null;
-        String sql = "update veiculos set estado=? where placa = ?";
+        String sql = "update veiculos set estado=?,idLocacao=? where placa = ?";
         
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, veiculo.getEstado().ordinal());
-            stmt.setString(2, veiculo.getPlaca());
+            if (veiculo.getLocacao() instanceof Locacao)
+                stmt.setInt(2, veiculo.getLocacao().getId());
+            else
+                stmt.setNull(2,java.sql.Types.INTEGER);
+            stmt.setString(3, veiculo.getPlaca());
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {
@@ -157,9 +161,9 @@ public class VeiculoDAO<Type extends Veiculo> {
         }
     }
     
-    public List getLista(int marca, int categoria, String tipo) throws SQLException {
+    public List getLista(int marca, int categoria, String tipo, Estado estado) throws SQLException {
         Connection connection = null;
-        String sql = "select * from veiculos where tipo = ? and estado = 0";
+        String sql = "select * from veiculos where tipo = ? and estado = ?";
         ResultSet rs = null;
         
         try {
@@ -172,6 +176,7 @@ public class VeiculoDAO<Type extends Veiculo> {
             }
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, tipo);
+            stmt.setInt(2, estado.ordinal());
             rs = stmt.executeQuery();
             List veiculos = new ArrayList();
             while(rs.next()){
