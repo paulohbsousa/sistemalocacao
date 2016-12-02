@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import sistemalocacao.dao.LocacaoDAO;
+import sistemalocacao.dao.VeiculoDAO;
 
 /**
  *
@@ -67,15 +69,31 @@ public abstract class Veiculo implements VeiculoI {
 
         @Override
 	public void vender(){
-            if (estado == Estado.Disponivel || estado == Estado.Novo)
-                    estado = Estado.Vendido;
+            try {
+                if (estado == Estado.Disponivel || estado == Estado.Novo){
+                        VeiculoDAO dao = new VeiculoDAO();
+                        estado = Estado.Vendido;
+                        dao.atualiza(this);
+                }
+            } catch (Exception ex){
+                System.out.println("Erro ao vender veiculo. Excecao = "+ex.getMessage());
+            }
 	}
 
         @Override
 	public void devolver(){
             if (estado == Estado.Locado){
+                try {
+                    VeiculoDAO dao = new VeiculoDAO();
+                    LocacaoDAO ldao = new LocacaoDAO();
+                    Locacao locacaoAntiga = locacao;
                     locacao = null;
                     estado = Estado.Disponivel;
+                    dao.atualiza(this);
+                    ldao.deleta(locacaoAntiga);
+                } catch (Exception ex){
+                    System.out.println("Erro ao devolver veiculo. Excecao = "+ex.getMessage());
+                }
             }
 	}
 

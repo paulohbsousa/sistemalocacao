@@ -5,6 +5,7 @@
  */
 package sistemalocacao;
 import sistemalocacao.view.ClienteForm;
+import sistemalocacao.view.VeiculoDevolverForm;
 import sistemalocacao.view.VeiculoIncluirForm;
 import sistemalocacao.view.VeiculoVenderForm;
 
@@ -60,6 +61,11 @@ public class MainMenu extends javax.swing.JFrame {
         ButtonAlugar.setText("Alugar Veículos");
 
         ButtonDevolver.setText("Devolver Veículos");
+        ButtonDevolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonDevolverActionPerformed(evt);
+            }
+        });
 
         ButtonVender.setText("Vender Veículos");
         ButtonVender.addActionListener(new java.awt.event.ActionListener() {
@@ -139,6 +145,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void ButtonVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonVenderActionPerformed
         new VeiculoVenderForm().setVisible(true);
     }//GEN-LAST:event_ButtonVenderActionPerformed
+
+    private void ButtonDevolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDevolverActionPerformed
+        new VeiculoDevolverForm().setVisible(true);
+    }//GEN-LAST:event_ButtonDevolverActionPerformed
 
     /**
      * @param args the command line windowClosedarguments

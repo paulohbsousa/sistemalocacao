@@ -202,13 +202,11 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
 
     private void venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderActionPerformed
         try {
-            VeiculoDAO dao = new VeiculoDAO();
             int[] linhasSelecionadas = tabela.getSelectedRows();
             List<Veiculo> listaExcluir = new ArrayList();
             for (int i = 0; i < linhasSelecionadas.length; i++) {
                 Veiculo veiculo = modeloTabela.getVeiculo(linhasSelecionadas[i]);
                 veiculo.vender();
-                dao.atualiza(veiculo);
                 listaExcluir.add(veiculo);
 
             }
