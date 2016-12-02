@@ -5,23 +5,12 @@
  */
 package sistemalocacao.dao;
 
-import sistemalocacao.bean.ModeloAutomovel;
-import sistemalocacao.bean.Marca;
-import sistemalocacao.bean.Motocicleta;
-import sistemalocacao.bean.Categoria;
-import sistemalocacao.bean.Locacao;
-import sistemalocacao.bean.Automovel;
-import sistemalocacao.bean.ModeloMotocicleta;
-import sistemalocacao.bean.Estado;
-import sistemalocacao.bean.Van;
-import sistemalocacao.bean.ModeloVan;
-import sistemalocacao.bean.Veiculo;
+import sistemalocacao.bean.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -141,7 +130,7 @@ public class VeiculoDAO<Type extends Veiculo> {
         Connection connection = null;
         String sql = "select * from veiculos where tipo = 'Automovel'";
         ResultSet rs = null;
-        
+        List<Automovel> listaAutomovel = new ArrayList<Automovel>();
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
@@ -209,59 +198,65 @@ public class VeiculoDAO<Type extends Veiculo> {
             }
             stmt.close();
             return veiculos;       
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
     
-    public Motocicleta getListaMotocicleta() throws SQLException {
+    public List<Motocicleta> getListaMotocicleta() throws SQLException {
         Connection connection = null;
         String sql = "select * from veiculos where tipo = 'Motocicleta'";
         ResultSet rs = null;
-        
+        List<Motocicleta> listaMotocicleta = new ArrayList<Motocicleta>();
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
-            rs.next();
-            stmt.close();
             LocacaoDAO locacaoDAO = new LocacaoDAO();
-            Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
-            Motocicleta motocicleta = new Motocicleta(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloMotocicleta.values()[rs.getInt("modelo")]);
-            return motocicleta;       
+            while(rs.next()){
+                Locacao locacao = locacaoDAO.pega(rs.getInt("idLocacao"));
+                Motocicleta motocicleta = new Motocicleta(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloMotocicleta.values()[rs.getInt("modelo")]);
+                listaMotocicleta.add(motocicleta);
+            }
+            return listaMotocicleta;       
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
     
-    public Van getListaVan() throws SQLException {
+    public List<Van> getListaVan() throws SQLException {
         Connection connection = null;
         String sql = "select * from veiculos where tipo = 'Van'";
         ResultSet rs = null;
-        
+        List<Van> listaVan = new ArrayList<Van>();
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
-            rs.next();
-            stmt.close();
             LocacaoDAO locacaoDAO = new LocacaoDAO();
-            Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
-            Van van = new Van(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloVan.values()[rs.getInt("modelo")]);
-            return van;       
+            while(rs.next()){
+                Locacao locacao = locacaoDAO.pega(rs.getInt("idLocacao"));
+                Van van = new Van(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloVan.values()[rs.getInt("modelo")]);
+                listaVan.add(van);
+            }
+            return listaVan;       
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }

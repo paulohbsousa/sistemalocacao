@@ -82,15 +82,14 @@ public class LocacaoDAO {
             Cliente cliente = clienteDAO.pega(cpf);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(rs.getDate("data"));
-           
             Locacao locacao = new Locacao(rs.getInt("dias"), rs.getDouble("valor"), calendar , cliente);
-            stmt.close();
             return locacao;           
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
@@ -107,9 +106,8 @@ public class LocacaoDAO {
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             rs.next();
-            stmt.close();
             ClienteDAO clienteDAO = new ClienteDAO();
-            Cliente cliente = clienteDAO.pega(id);
+            Cliente cliente = clienteDAO.pega(rs.getLong("idCliente"));
             Calendar calendar = Calendar.getInstance(); //verificar isso
             calendar.setTime(rs.getDate("data"));
             Locacao locacao = new Locacao(rs.getInt("dias"), rs.getDouble("valor"), calendar , cliente);
@@ -119,6 +117,7 @@ public class LocacaoDAO {
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
