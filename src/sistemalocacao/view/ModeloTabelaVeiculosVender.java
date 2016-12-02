@@ -6,7 +6,6 @@
 package sistemalocacao.view;
 
 import java.text.DecimalFormat;
-import sistemalocacao.bean.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -72,36 +71,12 @@ public class ModeloTabelaVeiculosVender extends AbstractTableModel{
                         return van.getModelo().toString();
                 }
             case 3: return veiculo.getAno() ;
-//            case 4: return new Double(df.format(veiculo.getValorParaVenda()));
-            case 4: return veiculo.getValorParaVenda();
+            case 4: return df.format(veiculo.getValorParaVenda());
             default : return null;
         }
     }
 
-    @Override
-    public void setValueAt(Object value, int row, int col) {
-        Veiculo veiculo = lista.get(row);
-        
-//        switch (col) {
-//            case 0:
-//                veiculo.setCPF((Integer) value);
-//                break;
-//            case 1:
-//                cliente.setNome((String) value);
-//                break;
-//            case 2:
-//                cliente.setSobrenome((String) value);
-//                break;
-//            case 3:
-//                cliente.setRG((String) value);
-//                break;
-//            case 4:
-//                cliente.setEndereco((String) value);
-//                break;
-//            default:
-//        }
-        this.fireTableCellUpdated(row, col);
-    }
+  
 
     public boolean removeCliente(Veiculo veiculo) {
         int linha = this.lista.indexOf(veiculo);

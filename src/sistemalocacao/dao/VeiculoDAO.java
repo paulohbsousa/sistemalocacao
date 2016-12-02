@@ -159,7 +159,7 @@ public class VeiculoDAO<Type extends Veiculo> {
     
     public List getLista(int marca, int categoria, String tipo) throws SQLException {
         Connection connection = null;
-        String sql = "select * from veiculos where tipo = ?";
+        String sql = "select * from veiculos where tipo = ? and estado = 0";
         ResultSet rs = null;
         
         try {

@@ -214,7 +214,7 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
             for(Veiculo veiculo:listaExcluir){
                 modeloTabela.removeCliente(veiculo);
             }
-
+            JOptionPane.showMessageDialog(null,"Veiculo vendido com sucesso!");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de contatos. "+ex , "Erro", JOptionPane.ERROR_MESSAGE);
         }
