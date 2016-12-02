@@ -260,12 +260,7 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         try {
             VeiculoDAO dao = new VeiculoDAO();
-<<<<<<< HEAD:src/sistemalocacao/VeiculoForm.java
-            Van van = dao.getListaVan();
-            modeloTabela.setListaClientes(dao.getListaVan());
-=======
-            modeloTabela.setListaVeiculos(dao.getLista());
->>>>>>> 38e8cb262897ba22da3b1948ba43322287ee5ebb:src/sistemalocacao/view/VeiculoLocarForm.java
+//            modeloTabela.setListaVeiculos(dao.getLista());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -295,14 +290,14 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
        //Pega a linha clicada
         linhaClicada = tabela.rowAtPoint(evt.getPoint());
         //Pega o contato da linha clidada
-        Veiculo veiculo = modeloTabela.getVeiculo(linhaClicada);
+//        Veiculo veiculo = modeloTabela.getVeiculo(linhaClicada);
         //Seta os dados nos componentes
         
-        cpf.setText(Long.toString(cliente.getCPF()));
-        nome.setText(cliente.getNome());
-        sobrenome.setText(cliente.getSobrenome());
-        rg.setText(cliente.getRG());
-        endereco.setText(cliente.getEndereco());
+//        cpf.setText(Long.toString(cliente.getCPF()));
+//        nome.setText(cliente.getNome());
+//        sobrenome.setText(cliente.getSobrenome());
+//        rg.setText(cliente.getRG());
+//        endereco.setText(cliente.getEndereco());
         
         
     }//GEN-LAST:event_tabelaMouseClicked

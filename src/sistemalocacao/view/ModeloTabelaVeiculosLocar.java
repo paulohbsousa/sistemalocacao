@@ -17,15 +17,7 @@ import javax.swing.table.AbstractTableModel;
 public class ModeloTabelaVeiculosLocar extends AbstractTableModel{
     private String[] colunas = new String[]{"Marca","Modelo", "Estado", "Categoria", "Placa", "Ano"};
 
-<<<<<<< HEAD:src/sistemalocacao/ModeloTabelaVeiculos.java
-    private List<Van> listaVan = new ArrayList();
-    
-    private List<Automovel> listaAutomovel = new ArrayList();
-    
-    private List<Motocicleta> listaMotocicleta = new ArrayList();
-=======
     private List<Veiculo> lista=new ArrayList();
->>>>>>> 38e8cb262897ba22da3b1948ba43322287ee5ebb:src/sistemalocacao/view/ModeloTabelaVeiculosLocar.java
 
     
     public ModeloTabelaVeiculosLocar(List<Veiculo> lista){

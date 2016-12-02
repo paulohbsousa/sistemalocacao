@@ -65,7 +65,7 @@ public class VeiculoIncluirForm extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setText("Modelo");
@@ -280,7 +280,7 @@ public class VeiculoIncluirForm extends javax.swing.JFrame {
             } catch (Exception ex) {
                 throw new Exception("Erro ao atualizar no banco de dados. E="+ex.getMessage());
             }
-            modeloTabela.adicionaVeiculo(veiculoNovo);
+//            modeloTabela.adicionaVeiculo(veiculoNovo);
         } catch (Exception ex){
             JOptionPane.showMessageDialog(null,"Erro ao criar veiculo. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }

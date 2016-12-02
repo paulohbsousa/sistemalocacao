@@ -38,7 +38,7 @@ public class VeiculoDAO<Type extends Veiculo> {
             stmt.setInt(3, veiculo.getCategoria().ordinal());
             stmt.setDouble(4, veiculo.getValorParaVenda());
             stmt.setString(5, veiculo.getPlaca());
-            switch (veiculo.getClass().getName()){ // Pegar o nome da classe
+            switch (veiculo.getClass().getSimpleName()){ // Pegar o nome da classe
                 case "Van":
                     Van van = (Van) veiculo;
                     modelo = van.getModelo().ordinal();
@@ -53,7 +53,7 @@ public class VeiculoDAO<Type extends Veiculo> {
                 break;
             }
             stmt.setInt(6, modelo);
-            stmt.setString(7, veiculo.getClass().getName());
+            stmt.setString(7, veiculo.getClass().getSimpleName());
             stmt.setInt(8, veiculo.getAno());
             stmt.executeUpdate();
             stmt.close();
