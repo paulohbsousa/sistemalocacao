@@ -5,8 +5,8 @@
  */
 package sistemalocacao.dao;
 
-import sistemalocacao.util.Locacao;
-import sistemalocacao.util.Cliente;
+import sistemalocacao.bean.Locacao;
+import sistemalocacao.bean.Cliente;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import sistemalocacao.util.CantDeleteException;
+import sistemalocacao.bean.CantDeleteException;
 
 /**
  *

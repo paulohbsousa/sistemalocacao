@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sistemalocacao.util;
+package sistemalocacao.bean;
 
 /**
  *
  * @author dell
  */
-public enum ModeloVan { 
-    Kombi, Sprinter
+public class CantDeleteException extends Exception {
+
+    public CantDeleteException(String motivo) {
+        super("Não é possível deletar o registro. Motivo: "+motivo);
+    }
+    
 }

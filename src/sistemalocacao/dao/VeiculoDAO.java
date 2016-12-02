@@ -5,11 +5,21 @@
  */
 package sistemalocacao.dao;
 
+import sistemalocacao.bean.ModeloAutomovel;
+import sistemalocacao.bean.Marca;
+import sistemalocacao.bean.Motocicleta;
+import sistemalocacao.bean.Categoria;
+import sistemalocacao.bean.Locacao;
+import sistemalocacao.bean.Automovel;
+import sistemalocacao.bean.ModeloMotocicleta;
+import sistemalocacao.bean.Estado;
+import sistemalocacao.bean.Van;
+import sistemalocacao.bean.ModeloVan;
+import sistemalocacao.bean.Veiculo;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import sistemalocacao.util.*;
 
 
 /**
