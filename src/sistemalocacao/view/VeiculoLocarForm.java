@@ -3,30 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sistemalocacao.view;
 
+import java.util.*;
+import static java.util.Calendar.*;
 import javax.swing.JOptionPane;
-import sistemalocacao.dao.VeiculoDAO;
+import sistemalocacao.bean.*;
+import sistemalocacao.dao.*;
 
 /**
  *
- * @author Rafael
+ * @author marcelo
  */
 public class VeiculoLocarForm extends javax.swing.JFrame {
 
+    private ModeloTabelaClienteLocar modeloTabelaCliente;
+    private ModeloTabelaVeiculoLocar modeloTabelaVeiculo;
+    private int linhaClicada=-1;
+    private List<Veiculo> lista= new ArrayList();
+    private List<Van> listaVan = new ArrayList();
+    private List<Automovel> listaAutomovel = new ArrayList();
+    private List<Motocicleta> listaMotocicleta = new ArrayList();
+    private List<Cliente> listaCliente = new ArrayList();
     /**
-     * Creates new form TabelaContatoJFrame
+     * Creates new form VeiculoLocarForm
      */
-     private ModeloTabelaVeiculosIncluir modeloTabela;
-     private int linhaClicada=-1;
-    
     public VeiculoLocarForm() {
-        modeloTabela = new ModeloTabelaVeiculosIncluir();
+        modeloTabelaVeiculo = new ModeloTabelaVeiculoLocar();
+        modeloTabelaCliente = new ModeloTabelaClienteLocar();
         initComponents();
-        //Registra o evento da modificação da tabela
-        //TabelaEscutadorEvento escutador = new TabelaEscutadorEvento();
-        //modeloTabela.addTableModelListener(escutador);
+        buscarVeiculosPor.addItem("Automovel");
+        buscarVeiculosPor.addItem("Motocicleta");
+        buscarVeiculosPor.addItem("Van");
     }
 
     /**
@@ -38,285 +46,287 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        scrollPanel = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
-        listar = new javax.swing.JButton();
-        limpar = new javax.swing.JButton();
-        excluir = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        dadoCliente = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaCliente = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelaVeiculo = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        nome = new javax.swing.JTextField();
-        sobrenome = new javax.swing.JTextField();
+        nomeTabelaVeiculo = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        tipoBuscaClientes = new javax.swing.JComboBox<>();
+        tipoBuscaVeiculos = new javax.swing.JComboBox<>();
+        buscarVeiculosPor = new javax.swing.JComboBox<>();
+        buscarClientes = new javax.swing.JButton();
+        buscarVeiculos = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        rg = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        cpf = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        endereco = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        atualizar = new javax.swing.JButton();
-        novo = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-
-        jTextField1.setText("jTextField1");
+        locarVeiculo = new javax.swing.JButton();
+        qtdDias = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
 
-        tabela.setModel(modeloTabela);
-        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelaMouseClicked(evt);
-            }
-        });
-        scrollPanel.setViewportView(tabela);
-
-        listar.setText("Listar");
-        listar.addActionListener(new java.awt.event.ActionListener() {
+        dadoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listarActionPerformed(evt);
+                dadoClienteActionPerformed(evt);
             }
         });
 
-        limpar.setText("Limpar");
-        limpar.addActionListener(new java.awt.event.ActionListener() {
+        tabelaCliente.setModel(modeloTabelaCliente);
+        jScrollPane1.setViewportView(tabelaCliente);
+
+        tabelaVeiculo.setModel(modeloTabelaVeiculo);
+        jScrollPane2.setViewportView(tabelaVeiculo);
+
+        jLabel1.setText("Selecionar Cliente");
+
+        nomeTabelaVeiculo.setText("Selecionar Veiculo");
+
+        jLabel3.setText("Buscar cliente por:");
+
+        jLabel4.setText("Buscar veículo por:");
+
+        tipoBuscaClientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Sobrenome", "CPF" }));
+
+        tipoBuscaVeiculos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo", "Marca", "Categoria" }));
+        tipoBuscaVeiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                limparActionPerformed(evt);
+                tipoBuscaVeiculosActionPerformed(evt);
             }
         });
 
-        excluir.setText("Excluir");
-        excluir.addActionListener(new java.awt.event.ActionListener() {
+        buscarClientes.setText("Buscar Cliente");
+        buscarClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                excluirActionPerformed(evt);
+                buscarClientesActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Nome:");
-
-        nome.addActionListener(new java.awt.event.ActionListener() {
+        buscarVeiculos.setText("Buscar Veículos");
+        buscarVeiculos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nomeActionPerformed(evt);
+                buscarVeiculosActionPerformed(evt);
             }
         });
 
-        sobrenome.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setText("Quantidade de dias da locação");
+
+        locarVeiculo.setText("Locar Veículo");
+        locarVeiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sobrenomeActionPerformed(evt);
+                locarVeiculoActionPerformed(evt);
             }
         });
-
-        jLabel5.setText("Sobrenome:");
-
-        rg.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rgActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setText("RG:");
-
-        cpf.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cpfActionPerformed(evt);
-            }
-        });
-
-        jLabel7.setText("CPF:");
-
-        endereco.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enderecoActionPerformed(evt);
-            }
-        });
-
-        jLabel8.setText("Endereço:");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(rg, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(sobrenome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(rg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
-
-        atualizar.setText("Atualizar");
-        atualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atualizarActionPerformed(evt);
-            }
-        });
-
-        novo.setText("Novo");
-        novo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                novoActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
-        jLabel2.setText("Clientes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrollPanel, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(listar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(limpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(excluir)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(novo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(atualizar)
-                .addGap(28, 28, 28))
             .addGroup(layout.createSequentialGroup()
-                .addGap(181, 181, 181)
-                .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 891, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 891, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(388, 388, 388)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(391, 391, 391)
+                                .addComponent(nomeTabelaVeiculo)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(dadoCliente, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tipoBuscaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(buscarClientes, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(buscarVeiculosPor, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tipoBuscaVeiculos, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(buscarVeiculos, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(101, 101, 101)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(locarVeiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(27, 27, 27))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(qtdDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(109, 109, 109))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(7, 7, 7)
-                .addComponent(scrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(nomeTabelaVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(tipoBuscaClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(tipoBuscaVeiculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(listar)
-                    .addComponent(limpar)
-                    .addComponent(excluir))
+                    .addComponent(dadoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscarVeiculosPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(qtdDias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(novo)
-                    .addComponent(atualizar))
-                .addContainerGap())
+                    .addComponent(buscarClientes)
+                    .addComponent(buscarVeiculos)
+                    .addComponent(locarVeiculo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
+    private void dadoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dadoClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dadoClienteActionPerformed
+
+    private void buscarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClientesActionPerformed
+        String tipoBusca = tipoBuscaClientes.getSelectedItem().toString();
+        Cliente cliente;
+        List<Cliente> lista = new ArrayList();
+        String nome;
+        String sobrenome;
+        Long cpf;
+        ClienteDAO dao = new ClienteDAO();
         try {
-            VeiculoDAO dao = new VeiculoDAO();
-//            modeloTabela.setListaVeiculos(dao.getLista());
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+            switch(tipoBusca){
+                case "Nome":
+                    nome = dadoCliente.getText();
+                    lista = dao.buscaPorNome(nome);
+                    break;
+                case "Sobrenome":
+                    sobrenome = dadoCliente.getText();
+                    lista = dao.buscaPorSobrenome(sobrenome);
+                    break;
+                case "CPF":
+                    cpf = Long.parseLong(dadoCliente.getText());
+                    cliente = dao.pega(cpf);
+                    lista.add(cliente);
+                    break;
+            }
+            modeloTabelaCliente.setListaClientes(lista);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Erro ao escolher tipo de busca de clientes.Excecao = "+e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_listarActionPerformed
+    }//GEN-LAST:event_buscarClientesActionPerformed
 
-    private void limparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparActionPerformed
-        modeloTabela.limpaTabela();
-    }//GEN-LAST:event_limparActionPerformed
-
-    private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
+    private void locarVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locarVeiculoActionPerformed
+        Veiculo veiculo = modeloTabelaVeiculo.getVeiculo(tabelaVeiculo.getSelectedRow());
+        Cliente cliente = modeloTabelaCliente.getCliente(tabelaCliente.getSelectedRow());
         
-    }//GEN-LAST:event_excluirActionPerformed
-
-    private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
+        LocacaoDAO dao = new LocacaoDAO();
+        Calendar hoje = Calendar.getInstance();
+//        Calendar hoje = new Calendar(YEAR+MONTH+DAY_OF_MONTH);
+        try {
+            veiculo.locar(qtdDias.getComponentCount(), hoje, cliente);
+            dao.insere(veiculo.getLocacao());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Erro ao locar o veiculo.Excecao = "+e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
         
-    }//GEN-LAST:event_novoActionPerformed
+    }//GEN-LAST:event_locarVeiculoActionPerformed
 
-    private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
-        
-    }//GEN-LAST:event_atualizarActionPerformed
+    private void buscarVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarVeiculosActionPerformed
+        VeiculoDAO dao = new VeiculoDAO();
+        String tipoBusca = tipoBuscaVeiculos.getSelectedItem().toString();
+        String buscarPor = buscarVeiculosPor.getSelectedItem().toString();
+        try {
+            listaAutomovel = dao.getListaAutomovel();
+            listaMotocicleta = dao.getListaMotocicleta();
+            listaVan = dao.getListaVan();
+            switch(tipoBusca){
+                case "Tipo":
+                    switch(buscarPor){
+                        case "Automovel":
+                            lista = dao.getListaAutomovel();
+                            break;
+                        case "Motocicleta":
+                            lista = dao.getListaMotocicleta();
+                            break;
+                        case "Van":
+                            lista = dao.getListaVan();
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(null,"Erro ao buscar veiculo por tipo.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                case "Marca":
+                    lista.addAll(listaAutomovel);
+                    lista.addAll(listaMotocicleta);
+                    lista.addAll(listaVan);
+                    for(Veiculo veiculo: lista)
+                        if(veiculo.getMarca().toString() != buscarPor)
+                            lista.remove(veiculo);
+                    break;
+                case "Categoria":
+                    lista.addAll(listaAutomovel);
+                    lista.addAll(listaMotocicleta);
+                    lista.addAll(listaVan);
+                    for(Veiculo veiculo: lista)
+                        if(veiculo.getCategoria().toString() != buscarPor)
+                            lista.remove(veiculo);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null,"Ocorreu um erro na busca de veiculo.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            modeloTabelaVeiculo.setListaVeiculos(lista);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro na busca de veiculo. Excecao = "+e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_buscarVeiculosActionPerformed
 
-    private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nomeActionPerformed
-
-    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-       //Pega a linha clicada
-        linhaClicada = tabela.rowAtPoint(evt.getPoint());
-        //Pega o contato da linha clidada
-//        Veiculo veiculo = modeloTabela.getVeiculo(linhaClicada);
-        //Seta os dados nos componentes
-        
-//        cpf.setText(Long.toString(cliente.getCPF()));
-//        nome.setText(cliente.getNome());
-//        sobrenome.setText(cliente.getSobrenome());
-//        rg.setText(cliente.getRG());
-//        endereco.setText(cliente.getEndereco());
-        
-        
-    }//GEN-LAST:event_tabelaMouseClicked
-
-    private void sobrenomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sobrenomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sobrenomeActionPerformed
-
-    private void rgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rgActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rgActionPerformed
-
-    private void cpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cpfActionPerformed
-
-    private void enderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enderecoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_enderecoActionPerformed
+    private void tipoBuscaVeiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoBuscaVeiculosActionPerformed
+        String tipoBusca = tipoBuscaVeiculos.getSelectedItem().toString();
+        List<Veiculo> lista = new ArrayList();
+        switch(tipoBusca){
+            case "Tipo":
+                buscarVeiculosPor.removeAllItems();
+                buscarVeiculosPor.addItem("Automovel");
+                buscarVeiculosPor.addItem("Motocicleta");
+                buscarVeiculosPor.addItem("Van");
+                break;
+            case "Marca":
+                buscarVeiculosPor.removeAllItems();
+                Marca[] marcas = Marca.values();
+                for(Marca marca: marcas)
+                    buscarVeiculosPor.addItem(marca.toString());
+                break;
+            case "Categoria":
+                buscarVeiculosPor.removeAllItems();
+                Categoria[] categorias = Categoria.values();
+                for(Categoria categoria: categorias)
+                    buscarVeiculosPor.addItem(categoria.toString());
+                break;
+            default:
+                JOptionPane.showMessageDialog(null,"Ocorreu um erro na selecao do tipo de busca de veiculo.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_tipoBuscaVeiculosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,7 +354,6 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(VeiculoLocarForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -355,25 +364,22 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton atualizar;
-    private javax.swing.JTextField cpf;
-    private javax.swing.JTextField endereco;
-    private javax.swing.JButton excluir;
+    private javax.swing.JButton buscarClientes;
+    private javax.swing.JButton buscarVeiculos;
+    private javax.swing.JComboBox<String> buscarVeiculosPor;
+    private javax.swing.JTextField dadoCliente;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JButton limpar;
-    private javax.swing.JButton listar;
-    private javax.swing.JTextField nome;
-    private javax.swing.JButton novo;
-    private javax.swing.JTextField rg;
-    private javax.swing.JScrollPane scrollPanel;
-    private javax.swing.JTextField sobrenome;
-    private javax.swing.JTable tabela;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton locarVeiculo;
+    private javax.swing.JLabel nomeTabelaVeiculo;
+    private javax.swing.JSpinner qtdDias;
+    private javax.swing.JTable tabelaCliente;
+    private javax.swing.JTable tabelaVeiculo;
+    private javax.swing.JComboBox<String> tipoBuscaClientes;
+    private javax.swing.JComboBox<String> tipoBuscaVeiculos;
     // End of variables declaration//GEN-END:variables
 }

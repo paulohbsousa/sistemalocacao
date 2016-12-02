@@ -14,7 +14,7 @@ import sistemalocacao.dao.*;
 
 /**
  *
- * @author Rafael
+ * @author Marcelo
  */
 public class VeiculoDevolverForm extends javax.swing.JFrame {
 
@@ -165,7 +165,7 @@ public class VeiculoDevolverForm extends javax.swing.JFrame {
     }//GEN-LAST:event_devolverActionPerformed
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-     
+        
     }//GEN-LAST:event_tabelaMouseClicked
 
     /**

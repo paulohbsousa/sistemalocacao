@@ -105,6 +105,7 @@ public class LocacaoDAO {
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
+
             Locacao locacao = null;
             
             if ( rs.next() ){
