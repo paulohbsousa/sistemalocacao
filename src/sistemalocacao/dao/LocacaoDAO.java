@@ -82,34 +82,32 @@ public class LocacaoDAO {
             Cliente cliente = clienteDAO.pega(cpf);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(rs.getDate("data"));
-           
             Locacao locacao = new Locacao(rs.getInt("dias"), rs.getDouble("valor"), calendar , cliente);
-            stmt.close();
             return locacao;           
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
     
-    public Locacao pega(int id) throws SQLException {
+    public Locacao pega(String placa) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
-        String sql = "select * from locacoes where id = ? limit 1";
+        String sql = "select * from locacoes where placa = ? limit 1";
         ResultSet rs = null;
         
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setString(1, placa);
             rs = stmt.executeQuery();
             rs.next();
-            stmt.close();
             ClienteDAO clienteDAO = new ClienteDAO();
-            Cliente cliente = clienteDAO.pega(id);
+            Cliente cliente = clienteDAO.pega(rs.getLong("idCliente"));
             Calendar calendar = Calendar.getInstance(); //verificar isso
             calendar.setTime(rs.getDate("data"));
             Locacao locacao = new Locacao(rs.getInt("dias"), rs.getDouble("valor"), calendar , cliente);
@@ -119,6 +117,7 @@ public class LocacaoDAO {
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }

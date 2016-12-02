@@ -82,44 +82,6 @@ public class ModeloTabelaVeiculosDevolver extends AbstractTableModel{
         }
     }
 
-    //veiculo nao possui metodos set
-    /*@Override
-    public void setValueAt(Object value, int row, int col) {
-        Veiculo veiculo = lista.get(row);
-        switch (col) {
-            case 0:
-                veiculo.setMarca(String) value);
-                break;
-            case 1:
-                veiculo.setNome((String) value);
-                break;
-            case 2:
-                veiculo.setSobrenome((String) value);
-                break;
-            case 3:
-                veiculo.setRG((String) value);
-                break;
-            case 4:
-                veiculo.setEndereco((String) value);
-                break;
-            default:
-        }
-        this.fireTableCellUpdated(row, col);
-    }
-
-    public boolean removeVeiculo(Veiculo veiculo) {
-        int linha = this.lista.indexOf(veiculo);
-        boolean result = this.lista.remove(veiculo);
-        this.fireTableRowsDeleted(linha,linha);//update JTable
-        return result;
-    }
-
-    public void adicionaVeiculo(Veiculo veiculo) {
-        this.lista.add(veiculo);
-        //this.fireTableDataChanged();
-        this.fireTableRowsInserted(lista.size()-1,lista.size()-1);//update JTable
-    }*/
-
     public void setListaVeiculos(List<Veiculo> veiculos) {
         this.lista = veiculos;
         this.fireTableDataChanged();
