@@ -52,13 +52,43 @@ public class ClienteDAO {
     public List<Cliente> buscaPorNome(String nome) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
-        String sql = "select * from clientes where nome like '%?%'";
+        String sql = "select * from clientes where nome = ?";
         ResultSet rs = null;
         
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, nome);
+            stmt.setString(1,  nome);
+            rs = stmt.executeQuery();
+            if ( !rs.next() )
+                throw new RuntimeException("Iterando recurso invalido");
+            List<Cliente> listaCliente = new ArrayList();
+            while(rs.next()){
+                Cliente cliente = new Cliente(rs.getString("nome"), rs.getString("sobrenome"), rs.getString("rg"),rs.getLong("cpf"),rs.getString("endereco"));
+                listaCliente.add(cliente);
+            }
+            return listaCliente;
+            
+        } catch (SQLException | RuntimeException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (connection != null){
+                connection.close();
+            }
+            stmt.close();
+        }
+    }
+    
+    public List<Cliente> buscaPorSobrenome(String sobrenome) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        String sql = "select * from clientes where sobrenome = ?";
+        ResultSet rs = null;
+        
+        try {
+            connection = new ConnectionFactoryComProperties().getConnection();
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1,  sobrenome);
             rs = stmt.executeQuery();
             if ( !rs.next() )
                 throw new RuntimeException("Iterando recurso invalido");

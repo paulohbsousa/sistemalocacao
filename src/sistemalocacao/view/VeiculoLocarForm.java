@@ -212,6 +212,7 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
         Cliente cliente;
         List<Cliente> lista = new ArrayList();
         String nome;
+        String sobrenome;
         Long cpf;
         ClienteDAO dao = new ClienteDAO();
         try {
@@ -221,8 +222,8 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
                     lista = dao.buscaPorNome(nome);
                     break;
                 case "Sobrenome":
-                    nome = dadoCliente.getText();
-                    lista = dao.buscaPorNome(nome);
+                    sobrenome = dadoCliente.getText();
+                    lista = dao.buscaPorSobrenome(sobrenome);
                     break;
                 case "CPF":
                     cpf = Long.parseLong(dadoCliente.getText());
@@ -295,6 +296,7 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
             }
             modeloTabelaVeiculo.setListaVeiculos(lista);
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Ocorreu um erro na busca de veiculo. Excecao = "+e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_buscarVeiculosActionPerformed
 
