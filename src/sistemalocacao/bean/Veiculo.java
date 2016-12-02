@@ -111,8 +111,8 @@ public abstract class Veiculo implements VeiculoI {
 
         @Override
 	public double getValorParaVenda(){
-            int anoAtual = new Date().getYear();
-            double valorVenal = valorDeCompra - (anoAtual*0.15*valorDeCompra);
+            int anoAtual = Calendar.getInstance().get(Calendar.YEAR);
+            double valorVenal = valorDeCompra - ((anoAtual-ano)*0.15*valorDeCompra);
             if (valorVenal < valorDeCompra*0.10 || valorVenal < 0){
                     valorVenal = valorDeCompra * 0.1;
             }

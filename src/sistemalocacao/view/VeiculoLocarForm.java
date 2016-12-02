@@ -6,33 +6,23 @@
 
 package sistemalocacao.view;
 
-import sistemalocacao.dao.ClienteDAO;
-import sistemalocacao.bean.Cliente;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import sistemalocacao.dao.VeiculoDAO;
 
 /**
  *
  * @author Rafael
  */
-public class ClienteForm extends javax.swing.JFrame {
+public class VeiculoLocarForm extends javax.swing.JFrame {
 
     /**
      * Creates new form TabelaContatoJFrame
      */
-     private ModeloTabelaClientes modeloTabela;
+     private ModeloTabelaVeiculosIncluir modeloTabela;
      private int linhaClicada=-1;
     
-    public ClienteForm() {
-        modeloTabela = new ModeloTabelaClientes();
+    public VeiculoLocarForm() {
+        modeloTabela = new ModeloTabelaVeiculosIncluir();
         initComponents();
         //Registra o evento da modificação da tabela
         //TabelaEscutadorEvento escutador = new TabelaEscutadorEvento();
@@ -71,7 +61,7 @@ public class ClienteForm extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         tabela.setModel(modeloTabela);
@@ -269,8 +259,8 @@ public class ClienteForm extends javax.swing.JFrame {
 
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         try {
-            ClienteDAO dao = new ClienteDAO();
-            modeloTabela.setListaClientes(dao.getLista());
+            VeiculoDAO dao = new VeiculoDAO();
+//            modeloTabela.setListaVeiculos(dao.getLista());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -281,63 +271,15 @@ public class ClienteForm extends javax.swing.JFrame {
     }//GEN-LAST:event_limparActionPerformed
 
     private void excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirActionPerformed
-        try {
-            ClienteDAO dao = new ClienteDAO();
-            int[] linhasSelecionadas = tabela.getSelectedRows();
-            List<Cliente> listaExcluir = new ArrayList();
-            for (int i = 0; i < linhasSelecionadas.length; i++) {
-                Cliente cliente = modeloTabela.getCliente(linhasSelecionadas[i]);
-                dao.deleta(cliente);
-                listaExcluir.add(cliente);
-
-            }
-            for(Cliente cliente:listaExcluir){
-                modeloTabela.removeCliente(cliente);
-            }
-            JOptionPane.showMessageDialog(null,"Veiculo vendido com sucesso!");
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de contatos. "+ex , "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        
     }//GEN-LAST:event_excluirActionPerformed
 
     private void novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoActionPerformed
-        try{
-            Cliente cliente = new Cliente(nome.getText(),sobrenome.getText(),rg.getText(), Long.parseLong(cpf.getText()), endereco.getText());
-            ClienteDAO dao = null;
-            try {
-                dao = new ClienteDAO();
-                dao.insere(cliente);
-            } catch (Exception ex) {
-                throw new Exception("Erro ao atualizar no banco de dados. E="+ex.getMessage());
-            }
-            modeloTabela.adicionaCliente(cliente);
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(null,"Erro ao criar cliente. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-
-       
+        
     }//GEN-LAST:event_novoActionPerformed
 
     private void atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarActionPerformed
-        if(linhaClicada!=-1){
-            Cliente cliente = modeloTabela.getCliente(linhaClicada);
-            long cpfAntigo = cliente.getCPF();
-            cliente.setNome(nome.getText());
-            cliente.setSobrenome(sobrenome.getText());
-            cliente.setRG(sobrenome.getText());
-            cliente.setCPF(Long.parseLong(cpf.getText()));
-            cliente.setEndereco(endereco.getText());
-            ClienteDAO dao = null;
-            try {
-                dao = new ClienteDAO();
-                dao.atualiza(cliente,cpfAntigo);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null,"Erro ao atualizar no banco de dados. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-            //Atualiza tabela
-            modeloTabela.fireTableRowsUpdated(linhaClicada, linhaClicada);
-            
-        }
+        
     }//GEN-LAST:event_atualizarActionPerformed
 
     private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
@@ -348,14 +290,14 @@ public class ClienteForm extends javax.swing.JFrame {
        //Pega a linha clicada
         linhaClicada = tabela.rowAtPoint(evt.getPoint());
         //Pega o contato da linha clidada
-        Cliente cliente = modeloTabela.getCliente(linhaClicada);
+//        Veiculo veiculo = modeloTabela.getVeiculo(linhaClicada);
         //Seta os dados nos componentes
         
-        cpf.setText(Long.toString(cliente.getCPF()));
-        nome.setText(cliente.getNome());
-        sobrenome.setText(cliente.getSobrenome());
-        rg.setText(cliente.getRG());
-        endereco.setText(cliente.getEndereco());
+//        cpf.setText(Long.toString(cliente.getCPF()));
+//        nome.setText(cliente.getNome());
+//        sobrenome.setText(cliente.getSobrenome());
+//        rg.setText(cliente.getRG());
+//        endereco.setText(cliente.getEndereco());
         
         
     }//GEN-LAST:event_tabelaMouseClicked
@@ -393,20 +335,21 @@ public class ClienteForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClienteForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeiculoLocarForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClienteForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeiculoLocarForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClienteForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeiculoLocarForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClienteForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VeiculoLocarForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ClienteForm().setVisible(true);
+                new VeiculoLocarForm().setVisible(true);
             }
         });
     }

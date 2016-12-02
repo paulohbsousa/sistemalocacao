@@ -94,16 +94,16 @@ public class LocacaoDAO {
         }
     }
     
-    public Locacao pega(String placa) throws SQLException {
+    public Locacao pega(int id) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
-        String sql = "select * from locacoes where placa = ? limit 1";
+        String sql = "select * from locacoes where id = ? limit 1";
         ResultSet rs = null;
         
         try {
             connection = new ConnectionFactoryComProperties().getConnection();
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, placa);
+            stmt.setInt(1, id);
             rs = stmt.executeQuery();
             rs.next();
             ClienteDAO clienteDAO = new ClienteDAO();
