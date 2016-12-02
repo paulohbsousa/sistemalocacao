@@ -123,9 +123,9 @@ public class VeiculoDevolverForm extends javax.swing.JFrame {
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         try {
             VeiculoDAO dao = new VeiculoDAO();
-            listaAutomovel = (List<Automovel>) dao.getListaVanAutomovel();
-            listaMotocicleta = (List<Motocicleta>) dao.getListaMotocicleta();
-            listaVan = (List<Van>) dao.getListaVan();
+            listaAutomovel = dao.getListaAutomovel();
+            listaMotocicleta = dao.getListaMotocicleta();
+            listaVan = dao.getListaVan();
             lista.addAll(listaAutomovel);
             lista.addAll(listaMotocicleta);
             lista.addAll(listaVan);
@@ -134,19 +134,22 @@ public class VeiculoDevolverForm extends javax.swing.JFrame {
                     lista.remove(veiculo);
             modeloTabela.setListaVeiculos(lista);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Erro ao listar veiculos locados.Excecao = "+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_listarActionPerformed
 
     private void devolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_devolverActionPerformed
-        modeloTabela.limpaTabela();
+        Veiculo veiculo = modeloTabela.getVeiculo(tabela.getSelectedRow());
+        try {
+            veiculo.devolver();
+            JOptionPane.showMessageDialog(null,"Veiculo devolvido com sucesso!");
+        } catch (Exception e) {
+            System.out.println("Erro ao devolver veiculo. Excecao = "+e.getMessage());
+        }
     }//GEN-LAST:event_devolverActionPerformed
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
-       //Pega a linha clicada
-        linhaClicada = tabela.rowAtPoint(evt.getPoint());
-        //Pega o contato da linha clidada
-        Veiculo veiculo = modeloTabela.getVeiculo(linhaClicada); 
+     
     }//GEN-LAST:event_tabelaMouseClicked
 
     /**
