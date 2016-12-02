@@ -242,7 +242,8 @@ public class VeiculoLocarForm extends javax.swing.JFrame {
         Cliente cliente = modeloTabelaCliente.getCliente(tabelaCliente.getSelectedRow());
         
         LocacaoDAO dao = new LocacaoDAO();
-        Calendar hoje = new Calendar(YEAR+MONTH+DAY_OF_MONTH);
+        Calendar hoje = Calendar.getInstance();
+//        Calendar hoje = new Calendar(YEAR+MONTH+DAY_OF_MONTH);
         try {
             veiculo.locar(qtdDias.getComponentCount(), hoje, cliente);
             dao.insere(veiculo.getLocacao());
