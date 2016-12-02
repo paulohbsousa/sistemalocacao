@@ -6,21 +6,12 @@
 
 package sistemalocacao.view;
 
-import sistemalocacao.dao.ClienteDAO;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemalocacao.bean.Categoria;
 import sistemalocacao.bean.Estado;
 import sistemalocacao.bean.Marca;
-import sistemalocacao.bean.ModeloAutomovel;
 import sistemalocacao.bean.Veiculo;
 import sistemalocacao.dao.VeiculoDAO;
 
