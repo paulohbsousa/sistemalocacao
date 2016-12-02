@@ -12,24 +12,10 @@ import sistemalocacao.bean.*;
 public class ModeloTabelaVeiculosDevolver extends AbstractTableModel{
     private String[] colunas = new String[]{"Nome do Cliente", "Placa" ,"Marca","Modelo", "Ano", "Data Locacao", "Preco Diaria", "Quantidade de dias locados", "Valor locacao"};
 
-<<<<<<< HEAD:src/sistemalocacao/view/ModeloTabelaVeiculosLocar.java
-    private List<Veiculo> lista=new ArrayList();
-=======
-<<<<<<< HEAD:src/sistemalocacao/view/ModeloTabelaVeiculosLocar.java
-<<<<<<< HEAD:src/sistemalocacao/ModeloTabelaVeiculos.java
-=======
     private List<Veiculo> lista= new ArrayList();
->>>>>>> ff71e4b28702015fddc9895adf6959c53c7334a5:src/sistemalocacao/view/ModeloTabelaVeiculosDevolver.java
     private List<Van> listaVan = new ArrayList();
     private List<Automovel> listaAutomovel = new ArrayList();
     private List<Motocicleta> listaMotocicleta = new ArrayList();
-<<<<<<< HEAD:src/sistemalocacao/view/ModeloTabelaVeiculosLocar.java
-=======
-    private List<Veiculo> lista=new ArrayList();
->>>>>>> 38e8cb262897ba22da3b1948ba43322287ee5ebb:src/sistemalocacao/view/ModeloTabelaVeiculosLocar.java
-=======
->>>>>>> ff71e4b28702015fddc9895adf6959c53c7334a5:src/sistemalocacao/view/ModeloTabelaVeiculosDevolver.java
->>>>>>> marmleite-master:src/sistemalocacao/view/ModeloTabelaVeiculosDevolver.java
 
     
     public ModeloTabelaVeiculosDevolver(List<Veiculo> lista){

@@ -64,13 +64,7 @@ public class VeiculoIncluirForm extends javax.swing.JFrame {
         novo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-<<<<<<< HEAD
-        jTextField1.setText("jTextField1");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-=======
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
->>>>>>> marmleite-master
         setResizable(false);
 
         jLabel1.setText("Modelo");
@@ -259,15 +253,15 @@ public class VeiculoIncluirForm extends javax.swing.JFrame {
             switch(tipoVeiculo){
                 case "Automovel":
                     ModeloAutomovel modeloAutomovelNovo = ModeloAutomovel.valueOf(modelo.getSelectedItem().toString());
-                    automovel = new Automovel(marcaNovo, estadoNovo, locacaoNovo, categoriaNovo, Double.parseDouble(valor.getText()), placa.getText(), Integer.parseInt(ano.getText()), modeloAutomovelNovo);
+                    veiculoNovo = new Automovel(marcaNovo, estadoNovo, locacaoNovo, categoriaNovo, Double.parseDouble(valor.getText()), placa.getText(), Integer.parseInt(ano.getText()), modeloAutomovelNovo);
                     break;
                 case "Motocicleta":
                     ModeloMotocicleta modeloMotocicletaNovo = ModeloMotocicleta.valueOf(modelo.getSelectedItem().toString());
-                    motocicleta = new Motocicleta(marcaNovo, estadoNovo, locacaoNovo, categoriaNovo, Double.parseDouble(valor.getText()), placa.getText(), Integer.parseInt(ano.getText()), modeloMotocicletaNovo);
+                    veiculoNovo = new Motocicleta(marcaNovo, estadoNovo, locacaoNovo, categoriaNovo, Double.parseDouble(valor.getText()), placa.getText(), Integer.parseInt(ano.getText()), modeloMotocicletaNovo);
                     break;
                 case "Van":
                     ModeloVan modeloVanNovo = ModeloVan.valueOf(modelo.getSelectedItem().toString());
-                    van = new Van(marcaNovo, estadoNovo, locacaoNovo, categoriaNovo, Double.parseDouble(valor.getText()), placa.getText(), Integer.parseInt(ano.getText()), modeloVanNovo);
+                    veiculoNovo = new Van(marcaNovo, estadoNovo, locacaoNovo, categoriaNovo, Double.parseDouble(valor.getText()), placa.getText(), Integer.parseInt(ano.getText()), modeloVanNovo);
                     break;
                 default:
                     JOptionPane.showMessageDialog(null,"Selecione o tipo de veiculo que deseja listar.", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -280,10 +274,6 @@ public class VeiculoIncluirForm extends javax.swing.JFrame {
             } catch (Exception ex) {
                 throw new Exception("Erro ao atualizar no banco de dados. E="+ex.getMessage());
             }
-<<<<<<< HEAD
-//            modeloTabela.adicionaVeiculo(veiculoNovo);
-=======
->>>>>>> marmleite-master
         } catch (Exception ex){
             JOptionPane.showMessageDialog(null,"Erro ao criar veiculo. E="+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }

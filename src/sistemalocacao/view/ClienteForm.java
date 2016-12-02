@@ -294,7 +294,7 @@ public class ClienteForm extends javax.swing.JFrame {
             for(Cliente cliente:listaExcluir){
                 modeloTabela.removeCliente(cliente);
             }
-
+            JOptionPane.showMessageDialog(null,"Veiculo vendido com sucesso!");
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de contatos. "+ex , "Erro", JOptionPane.ERROR_MESSAGE);
         }

@@ -7,7 +7,6 @@
 package sistemalocacao.view;
 
 import sistemalocacao.dao.ClienteDAO;
-import sistemalocacao.util.Cliente;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,9 +17,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import sistemalocacao.util.Categoria;
-import sistemalocacao.util.Marca;
-import sistemalocacao.util.ModeloAutomovel;
+import sistemalocacao.bean.Categoria;
+import sistemalocacao.bean.Marca;
+import sistemalocacao.bean.ModeloAutomovel;
+import sistemalocacao.bean.Veiculo;
+import sistemalocacao.dao.VeiculoDAO;
 
 /**
  *
@@ -31,18 +32,20 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
     /**
      * Creates new form TabelaContatoJFrame
      */
-     private ModeloTabelaVeiculos modeloTabela;
+     private ModeloTabelaVeiculosVender modeloTabela;
      private int linhaClicada=-1;
     
     public VeiculoVenderForm() {
-        modeloTabela = new ModeloTabelaClientes();
+        modeloTabela = new ModeloTabelaVeiculosVender();
         initComponents();
         tipo.addItem("Automovel");
         tipo.addItem("Motocicleta");
         tipo.addItem("Van");
         Marca[] listaMarcas = Marca.values();
+        marca.addItem("");
         for(Marca marcas: listaMarcas) marca.addItem(marcas.toString());
         Categoria[] listaCategorias = Categoria.values();
+        categoria.addItem("");
         for(Categoria categorias: listaCategorias) categoria.addItem(categorias.toString());
         //Registra o evento da modificação da tabela
         //TabelaEscutadorEvento escutador = new TabelaEscutadorEvento();
@@ -197,10 +200,34 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void venderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderActionPerformed
+        try {
+            VeiculoDAO dao = new VeiculoDAO();
+            int[] linhasSelecionadas = tabela.getSelectedRows();
+            List<Veiculo> listaExcluir = new ArrayList();
+            for (int i = 0; i < linhasSelecionadas.length; i++) {
+                Veiculo veiculo = modeloTabela.getVeiculo(linhasSelecionadas[i]);
+                veiculo.vender();
+                dao.atualiza(veiculo);
+                listaExcluir.add(veiculo);
 
+            }
+            for(Veiculo veiculo:listaExcluir){
+                modeloTabela.removeCliente(veiculo);
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,"Erro ao realizar exclusão de contatos. "+ex , "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_venderActionPerformed
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        //Pega a linha clicada
+        linhaClicada = tabela.rowAtPoint(evt.getPoint());
+        //Pega o contato da linha clidada
+        Veiculo veiculo = modeloTabela.getVeiculo(linhaClicada);
+        //Seta os dados nos componentes
+        
+
         
     }//GEN-LAST:event_tabelaMouseClicked
 
@@ -219,7 +246,24 @@ public class VeiculoVenderForm extends javax.swing.JFrame {
     private void listarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarActionPerformed
         try {
             VeiculoDAO dao = new VeiculoDAO();
-            modeloTabela.setListaClientes(dao.getLista());
+            int categoriaVender = -1;
+            int marcaVender = -1;
+            
+            if (!categoria.getSelectedItem().toString().equals("")){
+                categoriaVender = Categoria.valueOf(categoria.getSelectedItem().toString()).ordinal();
+            }
+            if (!marca.getSelectedItem().toString().equals("")){
+                marcaVender = Marca.valueOf(marca.getSelectedItem().toString()).ordinal();
+            }
+
+                
+            String tipoVeiculo = tipo.getSelectedItem().toString();
+            if (!tipoVeiculo.equals("")){
+                modeloTabela.setListaVeiculos(dao.getLista(marcaVender,categoriaVender,tipoVeiculo));
+            } else {
+                JOptionPane.showMessageDialog(null,"Selecione o tipo de veiculo que deseja listar.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+            
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null,"Erro ao conectar com o banco de dados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
