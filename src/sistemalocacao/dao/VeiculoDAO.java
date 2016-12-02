@@ -104,7 +104,7 @@ public class VeiculoDAO<Type extends Veiculo> {
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, Estado.Disponivel.ordinal());
             stmt.setString(2, veiculo.getPlaca());
-            stmt.execute();
+            stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -125,7 +125,6 @@ public class VeiculoDAO<Type extends Veiculo> {
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
             rs.next();
-            stmt.close();
             LocacaoDAO locacaoDAO = new LocacaoDAO();
             Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
             Automovel automovel = new Automovel(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloAutomovel.values()[rs.getInt("modelo")]);
@@ -135,6 +134,7 @@ public class VeiculoDAO<Type extends Veiculo> {
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
@@ -149,7 +149,6 @@ public class VeiculoDAO<Type extends Veiculo> {
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
             rs.next();
-            stmt.close();
             LocacaoDAO locacaoDAO = new LocacaoDAO();
             Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
             Motocicleta motocicleta = new Motocicleta(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloMotocicleta.values()[rs.getInt("modelo")]);
@@ -159,6 +158,7 @@ public class VeiculoDAO<Type extends Veiculo> {
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
@@ -173,7 +173,6 @@ public class VeiculoDAO<Type extends Veiculo> {
             stmt = connection.prepareStatement(sql);
             rs = stmt.executeQuery();
             rs.next();
-            stmt.close();
             LocacaoDAO locacaoDAO = new LocacaoDAO();
             Locacao locacao = locacaoDAO.pega(rs.getInt("id"));
             Van van = new Van(Marca.values()[rs.getInt("marca")], Estado.values()[rs.getInt("estado")], locacao, Categoria.values()[rs.getInt("categoria")],rs.getInt("valor"), rs.getString("placa"), rs.getInt("ano"), ModeloVan.values()[rs.getInt("modelo")]);
@@ -183,6 +182,7 @@ public class VeiculoDAO<Type extends Veiculo> {
         } finally {
             if (connection != null){
                 connection.close();
+            stmt.close();
             }
         }
     }
